@@ -3,15 +3,15 @@ import {
   assertNotEquals,
 } from "https://deno.land/std/testing/asserts.ts";
 
-import { Linked_list } from "./linked_list.ts";
+import { LinkedList } from "./linked_list.ts";
 
 Deno.test("should create empty linked list", () => {
-  const linkedList = new Linked_list();
+  const linkedList = new LinkedList();
   assertEquals(linkedList.toString(), "");
 });
 
 Deno.test("should append node to linked list", () => {
-  const linkedList = new Linked_list();
+  const linkedList = new LinkedList();
 
   assertEquals(linkedList.head, null);
   assertEquals(linkedList.tail, null);
@@ -24,7 +24,7 @@ Deno.test("should append node to linked list", () => {
 });
 
 Deno.test("should prepend node to linked list", () => {
-  const linkedList = new Linked_list();
+  const linkedList = new LinkedList();
 
   linkedList.prepend(2);
   assertEquals(linkedList.head.value, 2);
@@ -37,7 +37,7 @@ Deno.test("should prepend node to linked list", () => {
 });
 
 Deno.test("should delete node by value from linked list", () => {
-  const linkedList = new Linked_list();
+  const linkedList = new LinkedList();
 
   assertEquals(linkedList.delete(5), null);
 
@@ -86,7 +86,7 @@ Deno.test("should delete node by value from linked list", () => {
 });
 
 Deno.test("should delete linked list tail", () => {
-  const linkedList = new Linked_list();
+  const linkedList = new LinkedList();
 
   linkedList.append(1);
   linkedList.append(2);
@@ -118,7 +118,7 @@ Deno.test("should delete linked list tail", () => {
 });
 
 Deno.test("should delete linked head", () => {
-  const linkedList = new Linked_list();
+  const linkedList = new LinkedList();
 
   assertEquals(linkedList.deleteHead(), null);
 
@@ -144,7 +144,7 @@ Deno.test("should delete linked head", () => {
 });
 
 Deno.test("should be possible to store objects in the list and to print them out", () => {
-  const linkedList = new Linked_list();
+  const linkedList = new LinkedList();
 
   const nodeValue1 = { value: 1, key: "key1" };
   const nodeValue2 = { value: 2, key: "key2" };
@@ -157,7 +157,7 @@ Deno.test("should be possible to store objects in the list and to print them out
 });
 
 Deno.test("should find node by value", () => {
-  const linkedList = new Linked_list();
+  const linkedList = new LinkedList();
 
   assertEquals(linkedList.find({ value: 5 }), null);
 
@@ -173,7 +173,7 @@ Deno.test("should find node by value", () => {
 });
 
 Deno.test("should find node by callback", () => {
-  const linkedList = new Linked_list();
+  const linkedList = new LinkedList();
 
   linkedList.append({ value: 1, key: "test1" });
   linkedList.append({ value: 2, key: "test2" });
@@ -191,7 +191,7 @@ Deno.test("should find node by callback", () => {
 });
 
 Deno.test("should create linked list from array", () => {
-  const linkedList = new Linked_list();
+  const linkedList = new LinkedList();
   linkedList.fromArray([1, 1, 2, 3, 3, 3, 4, 5]);
 
   assertEquals(linkedList.toString(), "1,1,2,3,3,3,4,5");
@@ -211,7 +211,7 @@ Deno.test("should find node by means of custom compare function", () => {
     return a.customValue < b.customValue ? -1 : 1;
   };
 
-  const linkedList = new Linked_list<CustomType>(comparatorFunction);
+  const linkedList = new LinkedList<CustomType>(comparatorFunction);
 
   linkedList.append({ value: 1, customValue: "test1" });
   linkedList.append({ value: 2, customValue: "test2" });
@@ -233,7 +233,7 @@ Deno.test("should find node by means of custom compare function", () => {
 Deno.test("should find preferring callback over compare function", () => {
   const greaterThan = (value, compareTo) => (value > compareTo ? 0 : 1);
 
-  const linkedList = new Linked_list<number>(greaterThan);
+  const linkedList = new LinkedList<number>(greaterThan);
   linkedList.fromArray([1, 2, 3, 4, 5]);
 
   let node = linkedList.find({ value: 3 });
@@ -244,7 +244,7 @@ Deno.test("should find preferring callback over compare function", () => {
 });
 
 Deno.test("should covert to array", () => {
-  const linkedList = new Linked_list();
+  const linkedList = new LinkedList();
   linkedList.append(1);
   linkedList.append(2);
   linkedList.append(3);
@@ -252,7 +252,7 @@ Deno.test("should covert to array", () => {
 });
 
 Deno.test("should reverse linked list", () => {
-  const linkedList = new Linked_list();
+  const linkedList = new LinkedList();
 
   // Add test values to linked list.
   linkedList.append(1).append(2).append(3);
