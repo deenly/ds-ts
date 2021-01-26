@@ -2,7 +2,7 @@ import { Comparator } from "./comparator.ts";
 import type { ComparatorFunction } from "./comparator.ts";
 
 export class LinkedListNode<T> {
-  value: T | null;
+  value: T;
   next: LinkedListNode<T> | null;
 
   constructor(value: T, next: LinkedListNode<T> | null = null) {
@@ -10,7 +10,7 @@ export class LinkedListNode<T> {
     this.next = next;
   }
 
-  toString(callback?: (value: T | null) => void) {
+  toString(callback?: (value: T) => string): string {
     return callback ? callback(this.value) : `${this.value}`;
   }
 }
@@ -21,10 +21,9 @@ export class LinkedList<T> {
   compare: Comparator<T>;
 
   /**
-   * @param {function} compareFunction
+   * @param {ComparatorFunction} compareFunction
    */
   constructor(compareFunction?: ComparatorFunction<T>) {
-    /** @var LinkedListNode */
     this.head = null;
 
     this.tail = null;
@@ -48,7 +47,7 @@ export class LinkedList<T> {
     }
 
     // Attach new node to end of linked list.
-    this.tail.next = newNode;
+    this.tail!.next = newNode;
     this.tail = newNode;
 
     return this;
@@ -102,7 +101,7 @@ export class LinkedList<T> {
     }
 
     // Check if tail must be deleted.
-    if (this.compare.equal(this.tail.value, value)) {
+    if (this.compare.equal(this.tail!.value, value)) {
       this.tail = currentNode;
     }
 
@@ -117,10 +116,10 @@ export class LinkedList<T> {
    */
   find(
     { value, callback }: { value?: T; callback?: (value: T) => boolean },
-  ): LinkedListNode<T> {
+  ): LinkedListNode<T> | null {
     if (!this.head) return null;
 
-    let currentNode = this.head;
+    let currentNode: LinkedListNode<T> | null = this.head;
 
     while (currentNode) {
       // If callback is specified then try to find node by callback.
@@ -154,7 +153,7 @@ export class LinkedList<T> {
     // If there are many nodes in linked list...
 
     // Rewind to the last node and delete "next" link for the node before the last one.
-    let currentNode = this.head;
+    let currentNode: LinkedListNode<T> = this.head!;
     while (currentNode.next) {
       if (!currentNode.next.next) {
         currentNode.next = null;
@@ -171,10 +170,8 @@ export class LinkedList<T> {
   /**
    * @return {LinkedListNode}
    */
-  deleteHead(): LinkedListNode<T> {
-    if (!this.head) {
-      return null;
-    }
+  deleteHead(): LinkedListNode<T> | null {
+    if (!this.head) return null;
 
     const deletedHead: LinkedListNode<T> = this.head;
 
@@ -193,7 +190,7 @@ export class LinkedList<T> {
    * @return {LinkedList}
    */
   fromArray(values: T[]): LinkedList<T> {
-    values.forEach((value) => this.append(value));
+    values.forEach(value => this.append(value));
 
     return this;
   }
@@ -217,7 +214,7 @@ export class LinkedList<T> {
    * @param {function} [callback]
    * @return {string}
    */
-  toString(callback?: (value: T) => void): string {
+  toString(callback?: (value: T) => string): string {
     return this.toArray().map((node) => node.toString(callback)).toString();
   }
 
@@ -226,9 +223,9 @@ export class LinkedList<T> {
    * @return {LinkedList}
    */
   reverse(): LinkedList<T> {
-    let currNode: LinkedListNode<T> = this.head;
-    let prevNode: LinkedListNode<T> = null;
-    let nextNode: LinkedListNode<T> = null;
+    let currNode: LinkedListNode<T> | null = this.head;
+    let prevNode: LinkedListNode<T> | null = null;
+    let nextNode: LinkedListNode<T> | null = null;
 
     while (currNode) {
       // Store next node.
