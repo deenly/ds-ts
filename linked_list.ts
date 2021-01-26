@@ -15,7 +15,7 @@ export class LinkedListNode<T> {
   }
 }
 
-export class Linked_list<T> {
+export class LinkedList<T> {
   head: LinkedListNode<T> | null;
   tail: LinkedListNode<T> | null;
   compare: Comparator<T>;
@@ -34,9 +34,9 @@ export class Linked_list<T> {
 
   /**
    * @param {*} value
-   * @return {Linked_list}
+   * @return {LinkedList}
    */
-  append(value: T) {
+  append(value: T): LinkedList<T> {
     const newNode = new LinkedListNode(value);
 
     // if there is no head yet let's make new node a head.
@@ -48,7 +48,7 @@ export class Linked_list<T> {
     }
 
     // Attach new node to end of linked list.
-    this.tail?.next = newNode;
+    this.tail.next = newNode;
     this.tail = newNode;
 
     return this;
@@ -56,9 +56,9 @@ export class Linked_list<T> {
 
   /**
    * @param {*} value
-   * @return {Linked_list}
+   * @return {LinkedList}
    */
-  prepend(value: T): Linked_list<T> {
+  prepend(value: T): LinkedList<T> {
     // Make new node to be a head.
     const newNode = new LinkedListNode(value, this.head);
     this.head = newNode;
@@ -131,7 +131,7 @@ export class Linked_list<T> {
         return currentNode;
       }
 
-      currentNode = currentNode.next;
+      currentNode = currentNode?.next;
     }
 
     return null;
@@ -140,7 +140,7 @@ export class Linked_list<T> {
   /**
    * @return {LinkedListNode}
    */
-  deleteTail() {
+  deleteTail(): LinkedListNode<T> | null {
     const deletedTail = this.tail;
 
     if (this.head === this.tail) {
@@ -190,9 +190,9 @@ export class Linked_list<T> {
 
   /**
    * @param {*[]} values - Array of values that need to be converted to linked list.
-   * @return {Linked_list}
+   * @return {LinkedList}
    */
-  fromArray(values: T[]): Linked_list<T> {
+  fromArray(values: T[]): LinkedList<T> {
     values.forEach((value) => this.append(value));
 
     return this;
@@ -223,9 +223,9 @@ export class Linked_list<T> {
 
   /**
    * Reverse a linked list.
-   * @return {Linked_list}
+   * @return {LinkedList}
    */
-  reverse(): Linked_list<T> {
+  reverse(): LinkedList<T> {
     let currNode: LinkedListNode<T> = this.head;
     let prevNode: LinkedListNode<T> = null;
     let nextNode: LinkedListNode<T> = null;
